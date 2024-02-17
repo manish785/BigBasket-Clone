@@ -1,13 +1,30 @@
+import Footer from "./Footer";
+import { useState, useEffect } from 'react';
+import { firstCarousel } from "../Data/Carousel";
 
 
 const Body = () => {
+    const [firstImage, setFirstImage] = useState(0);
+
+    useEffect(() => {
+        const Id = setInterval(() => {
+            if(firstCarousel.length - 1 === firstImage){
+                setFirstImage(0);
+                return;
+            }
+            setFirstImage(firstImage + 1);
+        }, 1500);
+        return () => clearInterval(Id);
+    }, [firstImage]);
+
     return (
         <>
         <div className="main-image-container">
-           <img
-             src="https://bigbasket-apnidukan.netlify.app/assets/image4-5507158b.webp"
-             alt=""
-           />
+                <img
+                src={firstCarousel[firstImage]}
+                alt="carouselImage"
+                width="100%"
+                />
         </div>
 
         <div className="bank-offers-container">
@@ -138,6 +155,9 @@ const Body = () => {
                 alt="digi-bank"
                 />
             </div>
+        </div>
+        <div>
+            <Footer/>
         </div>
         </>
     )

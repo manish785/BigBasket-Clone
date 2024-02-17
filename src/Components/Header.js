@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
-import Body from './Body';
-import Products from './Products';
+
 
 const Header = () => {
     return(
@@ -13,7 +12,7 @@ const Header = () => {
                 />
                 <div className='flex mt-[30px] pl-[40px]'>
                     <Link className='text-white' to='/'>Home</Link>
-                    <Link className='text-white pl-[20px]' to='/products'><Products/></Link>
+                    <Link className='text-white pl-[20px]' to='/products'>Products</Link>
                 </div>
             </div>
             <div className='right-container flex'>
