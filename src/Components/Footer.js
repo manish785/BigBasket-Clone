@@ -48,7 +48,7 @@ const Footer = () => {
                     placeholder=''
                     required
                   />
-                  <button className='mt-[10px] pl-[20px] mt-[-1px]'>
+                  <button className='mt-[10px] pl-[20px] mt-[2px]'>
                       <img 
                       className='h-[30px] w-[30px]'
                       src='https://img.icons8.com/?size=100&id=W_wmdihKCiFx&format=png'
