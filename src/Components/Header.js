@@ -1,70 +1,156 @@
-import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { auth } from '../utils/firebase';
-import { useEffect, useState } from 'react';
+import {
+  Box,
+  Flex,
+  IconButton,
+  useDisclosure,
+  Image,
+  Button,
+  Badge,
+  Text,
+} from "@chakra-ui/react";
+
+import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useAuth0 } from "@auth0/auth0-react";
+import { HiShoppingCart } from "react-icons/hi";
+
+import backgroundColor from "./backgroundColor";
+import useShowToast from "../CustomHooks/useShowToast";
+
+const Links = ["Home", "Products"];
+
+const NavLink = ({ children }) => (
+  <Link
+    to={children === Links[0] ? "/" : children === Links[1] ? "/products" : null}
+  >
+    <Box
+      color="white"
+      cursor="pointer"
+      fontSize="large"
+      _hover={{
+        textDecoration: "none",
+        color: "black",
+      }}
+    >
+      {children}
+    </Box>
+  </Link>
+);
 
 
 const Header = () => {
-    const navigate = useNavigate();
-    const [btnNameReact, setBtnNameReact] = useState('login');
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { ItemCount } = useSelector((store) => store.CartReducer);
+  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if(user){
-                setBtnNameReact('logout');
-            }else{
-                setBtnNameReact('login');
-            }
-        })
-        return () => unsubscribe();
-    }, [])
+  const [showToast] = useShowToast();
 
-    const handleSignIn = () => {
-        navigate('/login');
+  useEffect(() => {
+    if (isAuthenticated) {
+      showToast("Login Successfully", "success");
     }
+  }, [isAuthenticated]);
 
-    const handleSignOut = () => {
-        signOut(auth)
-        .then(() => {
-            setBtnNameReact('login');
-        })
-        .catch((error) => {
-            navigate('/error');
-        })
-    }
+  return (
+    <Box backgroundColor={backgroundColor} p={4}>
+      <Flex
+        alignItems={"center"}
+        justifyContent={"space-between"}
+        _hover={{
+          cursor: "pointer",
+        }}
+      >
+        <IconButton
+          backgroundColor={backgroundColor}
+          size={"md"}
+          icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+          aria-label={"Open Menu"}
+          display={{ md: "none" }}
+          onClick={isOpen ? onClose : onOpen}
+        />
+        <Flex alignItems={"center"} justifyContent={"space-evenly"}>
+          <Box
+            display="flex"
+            alignItems={"center"}
+            gap="10"
+            justifyContent={{
+              base: "center",
+              md: "normal",
+            }}
+          >
+            <Image
+              src="https://image3.mouthshut.com/images/imagesp/925660627s.png"
+              alt="company-logo"
+              width={{
+                base: "80%",
+                sm: "30%",
+                md: "15%",
+              }}
+            />
+            <Box display={{ base: "none", md: "flex" }} gap="10">
+              {Links.map((link) => (
+                <NavLink key={link}>{link}</NavLink>
+              ))}
+            </Box>
+          </Box>
+        </Flex>
 
-    return(
-        <div className='h-[90px] w-full bg-green-400 flex justify-between'>
-            <div className='left-container h-[80px] flex'>
-                <img
-                   className='h-[60px] pt-[20px] pl-[15px] text-xl'
-                   src='https://image3.mouthshut.com/images/imagesp/925660627s.png'
-                   alt='big-basket-icon'
-                />
-                <div className='flex mt-[30px] pl-[40px]'>
-                    <Link className='text-white' to='/'>Home</Link>
-                    <Link className='text-white pl-[20px]' to='/products'>Products</Link>
-                </div>
-            </div>
-            <div className='right-container flex'>
-               {btnNameReact === 'login' ? (
-                    <button className='ml-7 mt-2' onClick={handleSignIn}>
-                        <p className='font-bold text-xl mt-[-9px] mr-[36px] text-white'>Login</p>
-                    </button>
-               ):(
-                    <button className='ml-7 mt-2' onClick={handleSignOut}>
-                        <p className='font-bold text-xl mt-[-7px] mr-[18px] text-white'>Hi, Guest</p>
-                        <p className='font-bold  text-xl pt-[3px] mr-[36px] text-white'>Logout</p>
-                    </button>
-               )}
-               <img 
-               className='h-[45px] w-[45px] mt-[26px] mr-[12px]'
-               src="https://img.icons8.com/external-flaticons-flat-circular-flat-icons/64/external-cart-web-flaticons-flat-circular-flat-icons.png" alt="external-cart-web-flaticons-flat-circular-flat-icons"
-               />
-            </div>
-        </div>
-    )
-};
+        <Flex alignItems={"center"} gap="30px">
+          {isAuthenticated ? (
+            <Flex flexDirection="column" gap="10px">
+              <Text fontSize="sm">Welcome {user.name}</Text>
+
+              <Button
+                backgroundColor={backgroundColor}
+                color="white"
+                border="1px solid #ccc"
+                _hover={{
+                  color: "black",
+                }}
+                onClick={() => {
+                  showToast("Logout Successfully", "success", 5000);
+                  logout({
+                    logoutParams: { returnTo: window.location.origin },
+                  });
+                }}
+              >
+                Logout
+              </Button>
+            </Flex>
+          ) : (
+            <Button
+              backgroundColor={backgroundColor}
+              color="white"
+              border="1px solid #ccc"
+              _hover={{
+                color: "black",
+              }}
+              onClick={() => loginWithRedirect()}
+            >
+              Login
+            </Button>
+          )}
+
+          <Link to="/user/cart">
+            <Badge>{ItemCount}</Badge>
+            <HiShoppingCart size={40} />
+          </Link>
+        </Flex>
+      </Flex>
+
+      {isOpen ? (
+        <Box pb={4} display={{ md: "none" }}>
+          {Links.map((link) => (
+            <NavLink key={link}>{link}</NavLink>
+          ))}
+        </Box>
+      ) : null}
+    </Box>
+  );
+}
 
 
 export default Header;

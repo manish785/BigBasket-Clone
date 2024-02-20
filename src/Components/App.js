@@ -1,27 +1,35 @@
 import React from 'react';
-import { Route, Routes, BrowserRouter as Router } from 'react-router-dom'; 
+import { Route, Routes } from 'react-router-dom'; 
 
 import Header from './Header';
+import Footer from './Footer';
 import Body from './Body';
 import Products from './Products';
-import Login from './Login';
+
+import CartPage from '../Pages/CartPage';
+import PaymentPage from '../Pages/PaymentPage';
+import PaymentConfirmPage from '../Pages/PaymentConfirmPage';
+
+
+import PrivateRoute from '../PrivateRoute/PrivateRoute';
 
 function App() {
-    const routes = (
-      <Routes>
-        <Route path='/' element={<Body />} />
-        <Route path='/products' element={<Products />} />
-        <Route path='/login' element={<Login />} />
-      </Routes>
-    )
+   
 
     return (
-        <div className="App">
-            <Router>
-              <Header/>
-              {routes}
-            </Router>
-        </div>
+      <>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Body/>} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/user" element={<PrivateRoute />}>
+            <Route path="cart" element={<CartPage />} />
+            <Route path="payment" element={<PaymentPage />} />
+            <Route path="payment/confirm" element={<PaymentConfirmPage />} />
+          </Route>
+        </Routes>
+        <Footer />
+      </>
     );
 }
 
