@@ -1,65 +1,132 @@
-import { Link } from 'react-router-dom';
+import {
+  Box,
+  chakra,
+  Container,
+  SimpleGrid,
+  Stack,
+  Text,
+  VisuallyHidden,
+  Input,
+  IconButton,
+  useColorModeValue,
+  Image,
+} from "@chakra-ui/react";
 
-const Footer = () => {
-    return(
-        <div className="h-[200px] w-full border-t mt-[-8px] border-black flex">
-            <div>
-                <img 
-                className="h-[60px] w-[200px] mt-[30px] ml-[100px]"
-                src="https://image3.mouthshut.com/images/imagesp/925660627s.png"
-                alt=""
-                />
-                <p className="ml-[100px] mt-[9px]">© 2022 bigbasket . All rights reserved</p>
-            </div>
-            <div className="h-[160px] mt-[30px] pl-[80px]">
-                <h1 className="text-lg">Company</h1>
-                <div className='mt-[6px]'>
-                  <Link className='font-thin' to='/'>About Us</Link>
-                </div>
-                <div className='mt-[6px]'>
-                 <Link  className='font-thin' to='/'>Blog</Link>
-                </div>
-                <div className='mt-[6px]'>
-                <Link  className='font-thin' to='/'>Contact Us</Link>
-                </div>
-            </div>
 
-            <div className="h-[160px] mt-[30px] pl-[140px]">
-                <h1 className="text-lg">Support</h1>
-                <div className='mt-[6px]'>
-                  <Link  className='font-thin' to='/'>Help Center</Link>
-                </div>
-                <div className='mt-[6px]'>
-                 <Link  className='font-thin' to='/'>Terms of Service</Link>
-                </div>
-                <div className='mt-[6px]'>
-                <Link  className='font-thin' to='/'>Legal</Link>
-                </div>
-                <div className='mt-[6px]'>
-                <Link  className='font-thin' to='/'>Privacy Policy</Link>
-                </div>
-            </div>
-            <div className="h-[160px] mt-[30px] pl-[80px]">
-                <h1 className="text-lg">Stay up to date</h1>
-                <div className='mt-[30px] flex'>
-                  <input
-                    className='h-[36px] w-[350px] border border-black rounded-md'
-                    type='text'
-                    placeholder=''
-                    required
-                  />
-                  <button className='mt-[10px] pl-[20px] mt-[2px]'>
-                      <img 
-                      className='h-[30px] w-[30px]'
-                      src='https://img.icons8.com/?size=100&id=W_wmdihKCiFx&format=png'
-                      alt=''
-                      />
-                  </button>
-                </div>
-            </div>
-        </div>
-    )
+import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import { BiMailSend } from "react-icons/bi";
+import { Link } from "react-router-dom";
+import backgroundColor from "./backgroundColor";
+
+
+const SocialButton = ({ children, label, href }) => {
+  return (
+    <chakra.button
+      bg={useColorModeValue("blackAlpha.100", "whiteAlpha.100")}
+      rounded={"full"}
+      w={8}
+      h={8}
+      cursor={"pointer"}
+      as={"a"}
+      href={href}
+      display={"inline-flex"}
+      alignItems={"center"}
+      justifyContent={"center"}
+      transition={"background 0.3s ease"}
+      _hover={{
+        bg: useColorModeValue("blackAlpha.200", "whiteAlpha.200"),
+      }}
+    >
+      <VisuallyHidden>{label}</VisuallyHidden>
+      {children}
+    </chakra.button>
+  );
 };
 
 
-export default Footer;
+const ListHeader = ({ children }) => {
+  return (
+    <Text fontWeight={"500"} fontSize={"lg"} mb={2}>
+      {children}
+    </Text>
+  );
+};
+
+
+export default function Footer() {
+  return (
+    <Box
+      borderTop="1px solid #ccc"
+      bg={useColorModeValue("gray.50", "gray.900")}
+      color={useColorModeValue("gray.700", "gray.200")}
+    >
+      <Container as={Stack} maxW={"6xl"} py={10}>
+        <SimpleGrid
+          templateColumns={{ sm: "1fr 1fr", md: "2fr 1fr 1fr 2fr" }}
+          spacing={8}
+        >
+          <Stack spacing={6}>
+            <Link to="/">
+              <Image
+                src="https://image3.mouthshut.com/images/imagesp/925660627s.png"
+                alt="company-logo"
+                width={{
+                  base: "45%",
+                  sm: "35%",
+                  md: "50%",
+                }}
+              />
+            </Link>
+            <Text fontSize={"sm"}>© 2022 bigbasket . All rights reserved</Text>
+            <Stack direction={"row"} spacing={6}>
+              <SocialButton label={"Twitter"} href={"#"}>
+                <FaTwitter />
+              </SocialButton>
+              <SocialButton label={"YouTube"} href={"#"}>
+                <FaYoutube />
+              </SocialButton>
+              <SocialButton label={"Instagram"} href={"#"}>
+                <FaInstagram />
+              </SocialButton>
+            </Stack>
+          </Stack>
+          <Stack align={"flex-start"}>
+            <ListHeader>Company</ListHeader>
+            <Link href={"#"}>About us</Link>
+            <Link href={"#"}>Blog</Link>
+            <Link href={"#"}>Contact us</Link>
+          </Stack>
+          <Stack align={"flex-start"}>
+            <ListHeader>Support</ListHeader>
+            <Link href={"#"}>Help Center</Link>
+            <Link href={"#"}>Terms of Service</Link>
+            <Link href={"#"}>Legal</Link>
+            <Link href={"#"}>Privacy Policy</Link>
+          </Stack>
+          <Stack align={"flex-start"}>
+            <ListHeader>Stay up to date</ListHeader>
+            <Stack direction={"row"}>
+              <Input
+                placeholder={"Your email address"}
+                bg={useColorModeValue("blackAlpha.100", "whiteAlpha.100")}
+                border={0}
+                _focus={{
+                  bg: "whiteAlpha.300",
+                }}
+              />
+              <IconButton
+                bg={useColorModeValue(backgroundColor)}
+                color={useColorModeValue("white", "gray.800")}
+                _hover={{
+                  bg: backgroundColor,
+                }}
+                aria-label="Subscribe"
+                icon={<BiMailSend />}
+              />
+            </Stack>
+          </Stack>
+        </SimpleGrid>
+      </Container>
+    </Box>
+  );
+}
