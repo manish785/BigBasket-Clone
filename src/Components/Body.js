@@ -7,7 +7,6 @@ import { offer } from "../Data/topOffer";
 import { brand } from "../Data/brand.js";
 import { firstCarousel } from "../Data/Carousel";
 import { mostPopular } from "../Data/mostPopular";
-
 import FourCards from "./FourCards";
 
 const Home = () => {
@@ -25,6 +24,7 @@ const Home = () => {
     return () => clearInterval(Id);
   }, [firstImage]);
 
+  
   return (
     <div>
       <Box>

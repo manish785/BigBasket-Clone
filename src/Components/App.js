@@ -5,17 +5,12 @@ import Header from './Header';
 import Footer from './Footer';
 import Body from './Body';
 import Products from './Products';
-
 import CartPage from '../Pages/CartPage';
 import PaymentPage from '../Pages/PaymentPage';
 import PaymentConfirmPage from '../Pages/PaymentConfirmPage';
-
-
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 
 function App() {
-   
-
     return (
       <>
         <Header />
