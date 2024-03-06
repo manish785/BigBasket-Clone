@@ -6,11 +6,10 @@ import Footer from './Footer';
 import Body from './Body';
 import Products from './Products';
 import CartPage from '../Pages/CartPage';
-// import PaymentPage from '../Pages/PaymentPage/PaymentPage';
-// import PaymentConfirmPage from '../Pages/PaymentConfirmPage';
 import PaymentPage from "../Pages/PaymentPage/index";
-// import PaymentConfirm from "./pages/PaymentPage/Components/PaymentConfirm";
+import PaymentConfirm from "../Pages/PaymentPage/components/PaymentConfirm";
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
+
 
 function App() {
     return (
@@ -22,7 +21,7 @@ function App() {
           <Route path="/user" element={<PrivateRoute />}>
             <Route path="cart" element={<CartPage />} />
             <Route path="payment" element={<PaymentPage />} />
-            {/* <Route path="payment/confirm" element={<PaymentConfirmPage />} /> */}
+            <Route path="payment/confirm" element={<PaymentConfirm />} />
           </Route>
         </Routes>
         <Footer />
