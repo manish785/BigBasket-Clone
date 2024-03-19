@@ -107,7 +107,7 @@ const Cart = () => {
           <Heading as="h1" fontSize="xx-large" fontFamily="sans-serif">
             Your shopping cart is Empty
           </Heading>
-          <Link to="/product">
+          <Link to="/products">
             <Button bgColor={backgroundColor} color="white">
               Start shopping
             </Button>

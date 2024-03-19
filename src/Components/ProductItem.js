@@ -38,7 +38,7 @@ const ProductItem = ({
     md: "md",
   });
 
-  const { data } = useSelector((store) => store.CartReducer);
+  const { data } = useSelector((store) => store.CartReducer); // here, the data is coming from the CartStore 
 
   const HandleAddtoBag = () => {
     if (!isAuthenticated) {

@@ -78,7 +78,7 @@ const Product = () => {
         marginTop="50px"
         marginBottom="50px"
       >
-        {data.map((item, index) => (
+        {data.map((item, index) => (     // here, the data is coming form the Store.
           <Skeleton isLoaded={isLoading} key={index}>
             <ProductItem
               index={index}
